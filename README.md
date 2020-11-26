@@ -1,4 +1,6 @@
 # easydingbot
+[![PyPI version](https://badge.fury.io/py/easydingbot.svg)](https://badge.fury.io/py/easydingbot)
+
 Easydingbot is a package to make dingbot easily to use.
 
 ## Installation

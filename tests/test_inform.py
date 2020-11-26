@@ -21,21 +21,15 @@
 # SOFTWARE.
 
 from uuid import uuid4
-from easydingbot import inform
+from unittest import mock
+
+from easydingbot import inform, Dingbot
 from easydingbot.config import ConfigNotFound
 
 
-def test_inform_normal():
-    succeed = True
-    try:
-        resp = inform()
-        if not resp.ok:
-            succeed = False
-    except:
-        succeed = False
-        raise
-    
-    assert succeed
+def test_inform():
+    inform = mock.Mock(return_value='{"errcode":0,"errmsg":"ok"}')
+    assert inform() == '{"errcode":0,"errmsg":"ok"}'
 
 
 def test_inform_with_missing_dingbot():
