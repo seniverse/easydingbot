@@ -23,7 +23,7 @@
 from uuid import uuid4
 from unittest import mock
 
-from easydingbot import inform, Dingbot
+from easydingbot import inform
 from easydingbot.config import ConfigNotFound
 
 
