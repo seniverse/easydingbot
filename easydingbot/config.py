@@ -139,6 +139,8 @@ def remove_dingbot(*args, **kwargs):
                 print(f'Removed {dingbot_id} from config')
             else:
                 raise ConfigNotFound(f'The {dingbot_id} is not in config')
+    
+    return config_dict
 
 
 home = os.path.expanduser('~')
