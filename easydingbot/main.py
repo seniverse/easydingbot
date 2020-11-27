@@ -35,7 +35,7 @@ from datetime import (datetime,
 import requests
 import fire
 
-from .config import *
+from easydingbot.config import *
 
 class Dingbot:
     def __init__(self, dingbot_id='default'):
@@ -125,7 +125,7 @@ def feedback(dingbot_id='default', title='TASK NAME'):
                 ])
                 status2 = dingbot.send_msg(title, failed_text)
                 print(tb)
-                return status1, status2
+                return status1, status2, tb.strip().split('\n')[-1]
             else:
                 finished_dt = datetime.utcnow()
                 elapsed_time = finished_dt - init_dt

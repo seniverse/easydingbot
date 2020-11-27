@@ -135,8 +135,6 @@ home = os.path.expanduser('~')
 configfp = os.path.join(home, '.easydingbot')
 if not os.path.exists(configfp):
     print('There be no config file to load, please use "easydingbot add-dingbot" to add one')
-    with open(configfp) as f:
-        configs = json.load(f)
 else:
     with open(configfp) as f:
         configs = json.load(f)
