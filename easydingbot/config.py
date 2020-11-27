@@ -23,7 +23,6 @@
 import os
 import re
 import json
-from getpass import getpass
 
 
 class ConfigNotFound(Exception):
@@ -65,7 +64,7 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
 
     webhook_pattern = r'^https://oapi.dingtalk.com/robot/send\?access_token=.*'
     while True:
-        webhook = getpass('Please input the webhook string ("q" to quit) > ')
+        webhook = input('Please input the webhook string ("q" to quit) > ')
         if webhook.lower() == 'q':
             exit()
         elif re.search(webhook_pattern, webhook):
@@ -73,7 +72,7 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
         else:
             print('Invalid input, the format should be like "https://oapi.dingtalk.com/robot/send?access_token=XXX", please check and retry.')
 
-    secret = getpass('Please input the secret string ("q" to quit) > ')
+    secret = input('Please input the secret string ("q" to quit) > ')
     if secret.lower() == 'q':
         exit() 
 
@@ -84,8 +83,6 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
 
     with open(configfp, 'w') as f:
         json.dump(config_dict, f)
-        
-    return config_dict
         
 
 def list_dingbots(*args, **kwargs):
@@ -139,8 +136,6 @@ def remove_dingbot(*args, **kwargs):
                 print(f'Removed {dingbot_id} from config')
             else:
                 raise ConfigNotFound(f'The {dingbot_id} is not in config')
-    
-    return config_dict
 
 
 home = os.path.expanduser('~')
