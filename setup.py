@@ -12,7 +12,7 @@ with open(requirements_path) as f:
 
 setuptools.setup(
     name='easydingbot',
-    version='0.0.3',
+    version='0.0.4',
     author='Wentao Li',
     author_email='clarmy.lee@seniverse.com',
     description='A package to make dingbot easily to use',
