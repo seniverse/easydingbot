@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 import os
+import re
 import json
 from getpass import getpass
 
@@ -62,9 +63,15 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
         dingbot_id = 'default'
         config_dict = {}
 
-    webhook = getpass('Please input the webhook string ("q" to quit) > ')
-    if webhook.lower() == 'q':
-        exit()  
+    webhook_pattern = r'^https://oapi.dingtalk.com/robot/send\?access_token=.*'
+    while True:
+        webhook = getpass('Please input the webhook string ("q" to quit) > ')
+        if webhook.lower() == 'q':
+            exit()
+        elif re.search(webhook_pattern, webhook):
+            break
+        else:
+            print('Invalid input, the format should be like "https://oapi.dingtalk.com/robot/send?access_token=XXX", please check and retry.')
 
     secret = getpass('Please input the secret string ("q" to quit) > ')
     if secret.lower() == 'q':
@@ -77,6 +84,8 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
 
     with open(configfp, 'w') as f:
         json.dump(config_dict, f)
+        
+    return config_dict
         
 
 def list_dingbots(*args, **kwargs):
