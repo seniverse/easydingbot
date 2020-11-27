@@ -52,37 +52,46 @@ NEW3_DINGBOT_CONFIG = {
                 'secret': 'SEC474937571de1506cd3724af0d582224fa2788968032a2d6d982da988bea4e5de'
             }
 
+
+def load_result():
+    with open(configfp) as f:
+        return json.load(f)
+
+
 @patch('builtins.input')
-@patch('easydingbot.config.getpass')
-def test_normal_config(getpass, input):
-    getpass.side_effect = [DEFAULT_DINGBOT_CONFIG['webhook'], 
-                           DEFAULT_DINGBOT_CONFIG['secret']]
-    result = add_dingbot()
+def test_normal_config(input):
+    input.side_effect = [DEFAULT_DINGBOT_CONFIG['webhook'], 
+                         DEFAULT_DINGBOT_CONFIG['secret']]
+    add_dingbot()
+    result = load_result()
     assert result == {'default': DEFAULT_DINGBOT_CONFIG}
     
-    input.return_value = 'new1'
-    getpass.side_effect = [NEW1_DINGBOT_CONFIG['webhook'], 
-                           NEW1_DINGBOT_CONFIG['secret']]
-    result = add_dingbot()
+    input.side_effect = ['new1', 
+                         NEW1_DINGBOT_CONFIG['webhook'], 
+                         NEW1_DINGBOT_CONFIG['secret']]
+    add_dingbot()
+    result = load_result()
     assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG
     }
     
-    input.return_value = 'new2'
-    getpass.side_effect = [NEW2_DINGBOT_CONFIG['webhook'], 
-                           NEW2_DINGBOT_CONFIG['secret']]
-    result = add_dingbot()
+    input.side_effect = ['new2',
+                         NEW2_DINGBOT_CONFIG['webhook'], 
+                         NEW2_DINGBOT_CONFIG['secret']]
+    add_dingbot()
+    result = load_result()
     assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG,
         'new2': NEW2_DINGBOT_CONFIG
     }
     
-    input.return_value = 'new3'
-    getpass.side_effect = [NEW3_DINGBOT_CONFIG['webhook'], 
-                           NEW3_DINGBOT_CONFIG['secret']]
-    result = add_dingbot()
+    input.side_effect = ['new3',
+                          NEW3_DINGBOT_CONFIG['webhook'], 
+                          NEW3_DINGBOT_CONFIG['secret']]
+    add_dingbot()
+    result = load_result()
     assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG,
@@ -96,10 +105,11 @@ def test_normal_config(getpass, input):
         'new1': NEW1_DINGBOT_CONFIG
     }
 
-    input.return_value = 'new2'
-    getpass.side_effect = [NEW2_DINGBOT_CONFIG['webhook'], 
-                           NEW2_DINGBOT_CONFIG['secret']]
-    result = add_dingbot()
+    input.side_effect = ['new2',
+                         NEW2_DINGBOT_CONFIG['webhook'], 
+                         NEW2_DINGBOT_CONFIG['secret']]
+    add_dingbot()
+    result = load_result()
     assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG,
@@ -107,8 +117,9 @@ def test_normal_config(getpass, input):
     }
     
     # test remove by interactive cli
-    input.return_value = 'new2'
-    result = remove_dingbot()
+    input.side_effect = ['new2']
+    remove_dingbot()
+    result = load_result()
     assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG
