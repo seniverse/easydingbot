@@ -35,7 +35,7 @@ from datetime import (datetime,
 import requests
 import fire
 
-from .config import *
+from easydingbot.config import *
 
 class Dingbot:
     def __init__(self, dingbot_id='default'):
@@ -76,7 +76,7 @@ class Dingbot:
         }
         return requests.post(url = self.url, headers = {
             'Content-Type': 'application/json'
-            }, data = json.dumps(data))
+            }, data = json.dumps(data)).text
 
 
 def inform(dingbot_id='default', title='TASK NAME', text='TEXT'):
@@ -101,9 +101,9 @@ def feedback(dingbot_id='default', title='TASK NAME'):
         title (str, optional): The title you showing in dingbot, usually you should pass the task's identity here. 
                                Defaults to 'TASK NAME'.
     """
+    dingbot = Dingbot(dingbot_id)
     def decorator_func(function):
         def wrapper(*args, **kwargs):
-            dingbot = Dingbot(dingbot_id)
             init_dt = datetime.utcnow()
             init_timestr = (init_dt + timedelta(hours=8)).isoformat()
             start_text = '\n\n'.join([
@@ -111,9 +111,9 @@ def feedback(dingbot_id='default', title='TASK NAME'):
                     '**STATUS**: START RUNNING'
                     ]
             )
-            dingbot.send_msg(title, start_text)
+            status1 = dingbot.send_msg(title, start_text)
             try:
-                result = function(*args, **kwargs)
+                function(*args, **kwargs)
             except:
                 timestr = datetime.now(timezone(timedelta(hours=8))).isoformat()
                 tb = traceback.format_exc()
@@ -123,8 +123,9 @@ def feedback(dingbot_id='default', title='TASK NAME'):
                     '**TRACKBACK**:',
                     f'`{tb}`'
                 ])
-                dingbot.send_msg(title, failed_text)
-                raise
+                status2 = dingbot.send_msg(title, failed_text)
+                print(tb)
+                return status1, status2, tb.strip().split('\n')[-1]
             else:
                 finished_dt = datetime.utcnow()
                 elapsed_time = finished_dt - init_dt
@@ -134,15 +135,15 @@ def feedback(dingbot_id='default', title='TASK NAME'):
                     '**STATUS**: FINISHED',
                     f'**ELAPSED TIME**: {elapsed_time}',
                 ])
-                dingbot.send_msg(title, succeed_text)
-                return result
+                status3 = dingbot.send_msg(title, succeed_text)
+                return status1, status3
         return wrapper
     return decorator_func
 
 
 def touch_once(dingbot_id='default'):
     """Touch once to test whether it work"""
-    resp = json.loads(inform(dingbot_id).text)
+    resp = json.loads(inform(dingbot_id))
     if resp['errcode'] == 300001:
         TokenError('Token not exists, please check your webhook.')
     elif resp['errcode'] == 310000:
