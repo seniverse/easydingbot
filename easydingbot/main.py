@@ -110,7 +110,7 @@ def inform(dingbot_id='default', title='TASK NAME', text='TEXT'):
     return dingbot.send_msg(title, text)
 
 
-def feedback(dingbot_id='default', title='TASK NAME'):
+def feedback(dingbot_id='default', title='TASK NAME', **outkwargs):
     """A decorator to send feedback message
 
     Args:
@@ -123,23 +123,28 @@ def feedback(dingbot_id='default', title='TASK NAME'):
         def wrapper(*args, **kwargs):
             init_dt = datetime.utcnow()
             init_timestr = (init_dt + timedelta(hours=8)).isoformat()
-            start_text = '\n\n'.join([
+            custom_args = [f'**{key}**: {value}' 
+                           for key, value in outkwargs.items()]
+            all_args = custom_args + [
                     f'**TIME**: {init_timestr}',
                     '**STATUS**: START RUNNING'
                     ]
-            )
+            
+            start_text = '\n\n'.join(all_args)
+
             status1 = dingbot.send_msg(title, start_text)
             try:
                 function(*args, **kwargs)
             except:
                 timestr = datetime.now(timezone(timedelta(hours=8))).isoformat()
                 tb = traceback.format_exc()
-                failed_text = '\n\n'.join([
+                all_args = custom_args + [
                     f'**TIME**: {timestr}',
                     '**STATUS**: CRASHED',
                     '**TRACKBACK**:',
                     f'`{tb}`'
-                ])
+                ]
+                failed_text = '\n\n'.join(all_args)
                 status2 = dingbot.send_msg(title, failed_text)
                 print(tb)
                 return status1, status2, tb.strip().split('\n')[-1]
@@ -147,11 +152,12 @@ def feedback(dingbot_id='default', title='TASK NAME'):
                 finished_dt = datetime.utcnow()
                 elapsed_time = finished_dt - init_dt
                 timestr = datetime.now(timezone(timedelta(hours=8))).isoformat()
-                succeed_text = '\n\n'.join([
+                all_args = custom_args + [
                     f'**TIME**: {timestr}',
                     '**STATUS**: FINISHED',
                     f'**ELAPSED TIME**: {elapsed_time}',
-                ])
+                ]
+                succeed_text = '\n\n'.join(all_args)
                 status3 = dingbot.send_msg(title, succeed_text)
                 return status1, status3
         return wrapper

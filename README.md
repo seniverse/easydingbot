@@ -25,7 +25,7 @@ It's first time to set dingbot, we will use "default" as the first dingbot id.
 Please input the webhook string ("q" to quit) >
 Please input the secret string ("q" to quit) > 
 ```
-**Note that it won't show the webhook and secret string that you typed because we regard them as password.** Then you can list all dingbots already in configuration by `easydingbot ls-dingbot` command:
+Then you can list all dingbots already in configuration by `easydingbot ls-dingbot` command:
 ```shell
 $ easydingbot ls-dingbot
 There are 1 dingbots in config as follow:
@@ -104,6 +104,7 @@ After that, let's see the `feedback` decorator. This decorator is design for som
 ...
 
 >>> long_time_succeed()
+('{"errcode":0,"errmsg":"ok"}', '{"errcode":0,"errmsg":"ok"}')
 ```
 For this example, it will send 2 messages like:
 
@@ -116,6 +117,7 @@ For this example, it will send 2 messages like:
 > **STATUS**: FINISHED   
 > **ELAPSED TIME**: 0:00:02.123238
 
+The `long_time_succeed`'s return value will be modified by `feedback` to the message status, `('{"errcode":0,"errmsg":"ok"}', '{"errcode":0,"errmsg":"ok"}')` means the two messages have been sent to dingtalk's host. Since this feature, you should not add `feedback` to any return-value-matters function.
 For a task going to crash.
 ```python
 >>> @feedback(dingbot_id='another', title='ANOTHER TASK')
@@ -125,7 +127,9 @@ For a task going to crash.
 ...
 
 >>> long_time_failed()
+('{"errcode":0,"errmsg":"ok"}', '{"errcode":0,"errmsg":"ok"}', 'ZeroDivisionError: division by zero')
 ```
+For crashed task, it will return another value of the error's type.   
 It will send 2 messages like:
 
 > **ANOTHER TASK**   
@@ -145,3 +149,27 @@ It will send 2 messages like:
 >    1 / 0
 >ZeroDivisionError: division by zero
 >```
+
+In addition, you can pass custom arguments to show in result text, for example:
+```python
+>>> @feedback(title='CUSTOM', AUTHOR='CLARMY', PRIORITY=5)
+... def long_time_succeed():
+...     print('long time')
+... 
+>>> long_time_succeed()
+long time
+('{"errcode":0,"errmsg":"ok"}', '{"errcode":0,"errmsg":"ok"}')
+```
+The result:
+> **CUSTOM**   
+> **AUTHOR**: CLARMY   
+> **PRIORITY**: 5   
+> **TIME**: 2020-11-28T03:18:49.143275   
+> **STATUS**: START RUNNING
+
+> **CUSTOM**   
+> **AUTHOR**: CLARMY   
+> **PRIORITY**: 5   
+> **TIME**: 2020-11-28T03:18:49.293935+08:00   
+> **STATUS**: FINISHED   
+> **ELAPSED TIME**: 0:00:00.150647

@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 import os
+import re
 import json
-from getpass import getpass
 
 
 class ConfigNotFound(Exception):
@@ -62,11 +62,17 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
         dingbot_id = 'default'
         config_dict = {}
 
-    webhook = getpass('Please input the webhook string ("q" to quit) > ')
-    if webhook.lower() == 'q':
-        exit()  
+    webhook_pattern = r'^https://oapi.dingtalk.com/robot/send\?access_token=.*'
+    while True:
+        webhook = input('Please input the webhook string ("q" to quit) > ')
+        if webhook.lower() == 'q':
+            exit()
+        elif re.search(webhook_pattern, webhook):
+            break
+        else:
+            print('Invalid input, the format should be like "https://oapi.dingtalk.com/robot/send?access_token=XXX", please check and retry.')
 
-    secret = getpass('Please input the secret string ("q" to quit) > ')
+    secret = input('Please input the secret string ("q" to quit) > ')
     if secret.lower() == 'q':
         exit() 
 
