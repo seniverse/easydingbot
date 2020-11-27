@@ -1,4 +1,5 @@
 # easydingbot
+[![Build Status](https://travis-ci.org/seniverse/easydingbot.svg?branch=main)](https://travis-ci.org/seniverse/easydingbot)
 [![PyPI version](https://badge.fury.io/py/easydingbot.svg)](https://badge.fury.io/py/easydingbot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/seniverse/easydingbot/issues)
