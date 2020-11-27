@@ -37,11 +37,9 @@ FAKE_CONFIG = {
     }
 
 @patch('easydingbot.main.configs', FAKE_CONFIG)
-@patch('os.path')
 @patch('time.time')
-def test_sign_and_url(time, os):
+def test_sign_and_url(time):
     time.return_value = 1606483586.285
-    os.path.exists.return_value = True
     dingbot = Dingbot()
     dingbot.sign
     assert dingbot.signstring == 'WASfxzMjtdLTN6f0asAt4qLnI5w8xXM1EtOGHY1J1xU%3D'
