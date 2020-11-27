@@ -59,6 +59,7 @@ def add_dingbot(dingbot_id=None, *args, **kwargs):
             print('It\'s first time to set dingbot, We will use "default" as the first dingbot id.')
             dingbot_id = 'default'
     else:
+        dingbot_id = 'default'
         config_dict = {}
 
     webhook = getpass('Please input the webhook string ("q" to quit) > ')

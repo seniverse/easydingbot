@@ -28,14 +28,30 @@ import base64
 import urllib.parse
 import traceback
 import json
-from datetime import (datetime, 
-                      timedelta, 
-                      timezone)
+from datetime import (
+    datetime, 
+    timedelta, 
+    timezone
+)
 
 import requests
 import fire
 
-from easydingbot.config import *
+from easydingbot.config import (
+    ConfigNotFound,
+    TokenError,
+    SecretError,
+    URLError,
+    add_dingbot,
+    list_dingbots,
+    remove_dingbot
+)
+
+try:
+    from easydingbot.config import configs
+except ImportError:
+    configs = {}
+
 
 class Dingbot:
     def __init__(self, dingbot_id='default'):
@@ -62,9 +78,10 @@ class Dingbot:
     @property
     def url(self):
         self.sign
-        return '&'.join([self.webhook, 
+        url = '&'.join([self.webhook, 
                          '&'.join([f'timestamp={self.timestamp}', 
                                    f'sign={self.signstring}'])])
+        return url
 
     def send_msg(self, title, text):
         data = {
