@@ -1,5 +1,7 @@
 # easydingbot
 [![PyPI version](https://badge.fury.io/py/easydingbot.svg)](https://badge.fury.io/py/easydingbot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
 Easydingbot is a package to make dingbot easily to use.
 
@@ -89,7 +91,7 @@ If your configuration is correct, then the messages would be sent to your dingta
 After that, let's see the `feedback` decorator. This decorator is design for some long-period manual task's feedback.    
 > For example, you run a program with `nohup python ... &`, you estimated this program would run for a long time and got away to do something else. No one can tell you the program's running status before you rechecking its log, in other words, no feedback. Think that you find it crashed at 6 hours ago when you recheck the log, maybe you are going mad. Or you find it already finished at 6 hours ago, you wasted 6 hours for subsequent processing. So you need someone to tell you the program's status regardless of finish or crash, `feedback` can do this.
 
-`feedback` decorator has only two arguments of `dingbot_id` and `title`, you can assign `dingbot_id` to choose which dingbot to send, and assign `title` to identify the task name. While
+`feedback` decorator has only two arguments of `dingbot_id` and `title`, you can assign `dingbot_id` to choose which dingbot to send, and assign `title` to identify the task name.
 
 ```python
 >>> import time
