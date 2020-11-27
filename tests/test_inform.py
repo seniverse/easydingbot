@@ -20,20 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import json
-from uuid import uuid4
-from unittest import mock
 from unittest.mock import patch
-
-from easydingbot import inform, Dingbot
-from easydingbot.config import ConfigNotFound, configfp
+from easydingbot import inform
 
 
-def test_inform():
-    with patch('easydingbot.main.Dingbot') as mock:
-        dingbot = mock.return_value
-        dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
-        resp = inform()
-    
-        assert resp == '{"errcode":0,"errmsg":"ok"}'
+@patch('easydingbot.main.Dingbot')
+def test_inform(mock_dingbot):
+    dingbot = mock_dingbot.return_value
+    dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
+    resp = inform()
+
+    assert resp == '{"errcode":0,"errmsg":"ok"}'

@@ -21,37 +21,33 @@
 # SOFTWARE.
 
 import time
-from uuid import uuid4
-from unittest import mock
 from unittest.mock import patch
-
 from easydingbot import feedback
-from easydingbot.config import ConfigNotFound
 
 
-def test_feedback_normal():
-    with patch('easydingbot.main.Dingbot') as mock:
-        dingbot = mock.return_value
-        dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
+@patch('easydingbot.main.Dingbot')
+def test_feedback_normal(mock_dingbot):
+    dingbot = mock_dingbot.return_value
+    dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
 
-        @feedback()
-        def some_task_normal():
-            time.sleep(2)
-    
-        assert some_task_normal() == ('{"errcode":0,"errmsg":"ok"}',
-                                      '{"errcode":0,"errmsg":"ok"}')
-    
+    @feedback()
+    def some_task_normal():
+        time.sleep(2)
 
-def test_feedback_failed():
-    with patch('easydingbot.main.Dingbot') as mock:
-        dingbot = mock.return_value
-        dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
-    
-        @feedback()
-        def some_task_failed():
-            time.sleep(2)
-            1 / 0
+    assert some_task_normal() == ('{"errcode":0,"errmsg":"ok"}',
+                                  '{"errcode":0,"errmsg":"ok"}')
 
-        assert some_task_failed() == ('{"errcode":0,"errmsg":"ok"}',
-                                      '{"errcode":0,"errmsg":"ok"}',
-                                      'ZeroDivisionError: division by zero')
+
+@patch('easydingbot.main.Dingbot')
+def test_feedback_failed(mock_dingbot):
+    dingbot = mock_dingbot.return_value
+    dingbot.send_msg.return_value = '{"errcode":0,"errmsg":"ok"}'
+
+    @feedback()
+    def some_task_failed():
+        time.sleep(2)
+        1 / 0
+
+    assert some_task_failed() == ('{"errcode":0,"errmsg":"ok"}',
+                                    '{"errcode":0,"errmsg":"ok"}',
+                                    'ZeroDivisionError: division by zero')
