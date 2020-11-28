@@ -118,11 +118,11 @@ def feedback(dingbot_id='default', title='TASK NAME', **outkwargs):
         title (str, optional): The title you showing in dingbot, usually you should pass the task's identity here. 
                                Defaults to 'TASK NAME'.
     """
-    dingbot = Dingbot(dingbot_id)
     def decorator_func(function):
         def wrapper(*args, **kwargs):
-            init_dt = datetime.utcnow()
-            init_timestr = (init_dt + timedelta(hours=8)).isoformat()
+            dingbot = Dingbot(dingbot_id)
+            init_dt = datetime.now(timezone(timedelta(hours=8)))
+            init_timestr = init_dt.isoformat()
             custom_args = [f'**{key}**: {value}' 
                            for key, value in outkwargs.items()]
             all_args = custom_args + [
@@ -149,7 +149,7 @@ def feedback(dingbot_id='default', title='TASK NAME', **outkwargs):
                 print(tb)
                 return status1, status2, tb.strip().split('\n')[-1]
             else:
-                finished_dt = datetime.utcnow()
+                finished_dt = datetime.now(timezone(timedelta(hours=8)))
                 elapsed_time = finished_dt - init_dt
                 timestr = datetime.now(timezone(timedelta(hours=8))).isoformat()
                 all_args = custom_args + [
