@@ -166,7 +166,10 @@ def feedback(dingbot_id='default', title='TASK NAME', **outkwargs):
 
 def touch_once(dingbot_id='default'):
     """Touch once to test whether it work"""
-    resp = json.loads(inform(dingbot_id))
+    try:
+        resp = json.loads(inform(dingbot_id))
+    except ConfigNotFound:
+        return
     if resp['errcode'] == 300001:
         TokenError('Token not exists, please check your webhook.')
     elif resp['errcode'] == 310000:

@@ -89,8 +89,11 @@ def list_dingbots(*args, **kwargs):
     """List dingbots in config"""
     home = os.path.expanduser('~')
     configfp = os.path.join(home, '.easydingbot')
-    with open(configfp) as f:
-        config_dict = json.load(f)
+    if os.path.exists(configfp):
+        with open(configfp) as f:
+            config_dict = json.load(f)
+    else:
+        return 
 
     amount = len(config_dict)
     if amount > 0:
@@ -106,8 +109,11 @@ def remove_dingbot(*args, **kwargs):
     home = os.path.expanduser('~')
     configfp = os.path.join(home, '.easydingbot')
 
-    with open(configfp) as f:
-        config_dict = json.load(f)
+    if os.path.exists(configfp):
+        with open(configfp) as f:
+            config_dict = json.load(f)
+    else:
+        return
 
     if len(config_dict) > 0:
         args = list(args)
