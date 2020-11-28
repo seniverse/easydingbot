@@ -38,7 +38,7 @@ $ easydingbot touch
 Dingbot of default's status is normal.
 ```
 上面的命令等效于 `easydingbot touch default`。  
-如果你想要增加另一条机器人配置，你可以给 `easydingbot add-dingbot` 传入新机器人的ID然后进行配置：
+如果你想要增加另一条机器人配置，可以给 `easydingbot add-dingbot` 传入新机器人的ID然后进行配置：
 ```shell
 $ easydingbot add-dingbot another
 Please input the webhook string ("q" to quit) >
@@ -56,8 +56,8 @@ There are 2 dingbots in config as follow:
 $ easydingbot touch another
 Dingbot of another status is normal.
 ```
-如果你校验的结果显示异常，你怀疑是你输入的webhook或者秘钥不对，你可以再次使用 `easydingbot add-dingbot` 命令，输入相同的机器人ID去覆盖这条配置。   
-如果你想要删除一条机器人，你可以使用 `easydingbot rm-dingbot` 命令：
+如果你校验的结果显示异常，怀疑是输入的webhook或者秘钥不对，可以再次使用 `easydingbot add-dingbot` 命令，输入相同的机器人ID去覆盖这条配置。   
+如果你想要删除一条机器人，可以使用 `easydingbot rm-dingbot` 命令：
 ```shell
 $ easydingbot rm-dingbot
 There are 2 dingbots in config as follow:
@@ -74,7 +74,7 @@ Removed default from config
 ```
 
 ## 使用
-easydingbot的目的是使钉钉机器人使用起来更简单，因此目前只有两个简介的功能：`inform` 和 `feedback`。   
+easydingbot的目的是使钉钉机器人使用起来更简单，因此目前只有两个简洁的功能：`inform` 和 `feedback`。   
 我们先来看看 `inform` ，这是最基本的功能，它用于向指定的钉钉机器人发送指定的消息。`inform` 有3个参数：`dingbot_id`, `title` 和 `text`。你可以通过 `dingbot_id` 参数去控制要往哪个机器人里面发送消息，用`title` 和 `text` 去控制发送的内容。
 ```python
 >>> from easydingbot import inform
