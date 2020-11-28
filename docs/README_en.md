@@ -1,4 +1,4 @@
-[中文文档](./docs/README_zh.md)
+[中文文档](./README_zh.md)
 
 # easydingbot
 [![Build Status](https://travis-ci.org/seniverse/easydingbot.svg?branch=main)](https://travis-ci.org/seniverse/easydingbot)
@@ -46,7 +46,7 @@ Please input the webhook string ("q" to quit) >
 Please input the secret string ("q" to quit) > 
 ```
 
-Then you will have two dingbot in your configuration.
+Then you will have two dingbots in your configuration.
 ```
 $ easydingbot ls-dingbot
 There are 2 dingbots in config as follow:
