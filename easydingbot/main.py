@@ -167,7 +167,8 @@ def feedback(dingbot_id='default', title='TASK NAME', **outkwargs):
 def touch_once(dingbot_id='default'):
     """Touch once to test whether it work"""
     try:
-        resp = json.loads(inform(dingbot_id))
+        resp = json.loads(inform(dingbot_id, 
+                                 'touch', f'touch from {dingbot_id}'))
     except ConfigNotFound:
         return
     if resp['errcode'] == 300001:
