@@ -100,7 +100,9 @@ def test_normal_config(input):
     }
     
     # test remove by pass args
-    assert remove_dingbot('new2', 'new3') == {
+    remove_dingbot('new2', 'new3')
+    result = load_result()
+    assert result == {
         'default': DEFAULT_DINGBOT_CONFIG,
         'new1': NEW1_DINGBOT_CONFIG
     }
