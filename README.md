@@ -99,7 +99,7 @@ After that, let's see the `feedback` decorator. This decorator is design for som
 >>> from easydingbot import feedback
 
 >>> @feedback()
->>> def long_time_succeed():
+... def long_time_succeed():
 ...     time.sleep(3)
 ...
 
@@ -121,7 +121,7 @@ The `long_time_succeed`'s return value will be modified by `feedback` to the mes
 For a task going to crash.
 ```python
 >>> @feedback(dingbot_id='another', title='ANOTHER TASK')
->>> def long_time_failed():
+... def long_time_failed():
 ...     time.sleep(3)
 ...     1 / 0
 ...
