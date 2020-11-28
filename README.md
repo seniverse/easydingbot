@@ -109,7 +109,7 @@ After that, let's see the `feedback` decorator. This decorator is design for som
 For this example, it will send 2 messages like:
 
 > **TASK NAME**   
-> **TIME** : 2020-11-26T15:07:20.738476   
+> **TIME** : 2020-11-26T15:07:20.738476+08:00   
 > **STATUS** : START RUNNING
 
 > **TASK NAME**   
@@ -133,7 +133,7 @@ For crashed task, it will return another value of the error's type.
 It will send 2 messages like:
 
 > **ANOTHER TASK**   
-> **TIME** : 2020-11-26T15:07:22.962419   
+> **TIME** : 2020-11-26T15:07:22.962419+08:00   
 > **STATUS** : START RUNNING
 
 
@@ -164,7 +164,7 @@ The result:
 > **CUSTOM**   
 > **AUTHOR**: CLARMY   
 > **PRIORITY**: 5   
-> **TIME**: 2020-11-28T03:18:49.143275   
+> **TIME**: 2020-11-28T03:18:49.143275+08:00   
 > **STATUS**: START RUNNING
 
 > **CUSTOM**   
